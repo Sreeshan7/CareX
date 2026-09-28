@@ -1,0 +1,96 @@
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  error:
+    include-stacktrace: never
+    include-message: never
+  tomcat:
+    max-swallow-size: 3MB
+
+spring:
+  application:
+    name: carex-leave
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/carex}
+    username: ${SPRING_DATASOURCE_USERNAME:carex}
+    password: ${SPRING_DATASOURCE_PASSWORD:carex}
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+      jakarta.persistence.lock.timeout: 5000
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+  jackson:
+    default-property-inclusion: always
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      # Mass-assignment guard: unknown JSON fields (e.g. "status", "employeeId") → 400
+      fail-on-unknown-properties: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{correlationId:-}] [u:%X{userId:-}] %logger{36} - %msg%n"
+
+app:
+  zone: ${APP_ZONE:Asia/Kolkata}
+  jwt:
+    secret: ${JWT_SECRET:}
+    ttl: ${JWT_TTL:PT8H}
+  escalation:
+    manager-timeout: ${ESCALATION_MANAGER_TIMEOUT:PT48H}
+    hr-timeout: ${ESCALATION_HR_TIMEOUT:PT48H}
+    poll-interval: ${ESCALATION_POLL_INTERVAL:PT60S}
+    initial-delay: PT15S
+    batch-size: 50
+    enabled: true
+  demo:
+    enabled: ${APP_DEMO_ENABLED:false}
+    user-password: ${DEMO_USER_PASSWORD:}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:}
+  rate-limit:
+    enabled: true
+  ai:
+    provider: ${AI_PROVIDER:none}
+    translate-before-extract: ${APP_AI_TRANSLATE_BEFORE_EXTRACT:false}
+    sarvam:
+      api-key: ${SARVAM_API_KEY:}
+      base-url: ${SARVAM_BASE_URL:https://api.sarvam.ai}
+      auth-header: ${SARVAM_AUTH_HEADER:api-subscription-key}
+      stt-path: ${SARVAM_STT_PATH:/speech-to-text}
+      translate-path: ${SARVAM_TRANSLATE_PATH:/translate}
+      tts-path: ${SARVAM_TTS_PATH:/text-to-speech}
+      chat-path: ${SARVAM_CHAT_PATH:/v1/chat/completions}
+      stt-model: ${SARVAM_STT_MODEL:}
+      llm-model: ${SARVAM_LLM_MODEL:}
+      tts-model: ${SARVAM_TTS_MODEL:}
+      translate-model: ${SARVAM_TRANSLATE_MODEL:}
+      tts-speaker: ${SARVAM_TTS_SPEAKER:}

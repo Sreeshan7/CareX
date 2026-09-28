@@ -1,0 +1,7 @@
+app:
+  demo:
+    enabled: ${APP_DEMO_ENABLED:true}
+  escalation:
+    manager-timeout: ${ESCALATION_MANAGER_TIMEOUT:PT3M}
+    hr-timeout: ${ESCALATION_HR_TIMEOUT:PT3M}
+    poll-interval: ${ESCALATION_POLL_INTERVAL:PT20S}

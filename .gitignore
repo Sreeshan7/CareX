@@ -1,0 +1,20 @@
+# Build output
+backend/target/
+frontend/node_modules/
+frontend/dist/
+backend/src/main/resources/static/
+
+# Local env / secrets — never commit
+.env
+*.env
+!.env.example
+backend/.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.log
+
+# Local tooling
+.tools/
