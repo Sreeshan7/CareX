@@ -22,20 +22,21 @@ Legend: `[x]` implemented **and** verified · `[~]` implemented, verification li
 - [x] 17. Escalation scheduler (SKIP LOCKED, exactly-once, restart-safe)
 - [x] 18. Idempotency (clientRequestId unique; decision/cancel replay)
 - [x] 19. Concurrency tests
-- [ ] 20. Employee UI
-- [ ] 21. Manager UI
-- [ ] 22. HR UI
-- [ ] 23. Deployment (Dockerfile, railway.json, README steps)
+- [x] 20. Employee UI
+- [x] 21. Manager UI
+- [x] 22. HR UI
+- [~] 23. Deployment config done (Dockerfile, railway.json, render.yaml, CI, Vercel script); prod jar verified locally; **public deploy blocked on backend-host credentials**
 
 ## AI (P1)
-- [ ] 24. AI provider abstraction (STT/TTS/Translate/LLM ports, fake + none)
-- [ ] 25. Sarvam adapter (configurable; endpoints unverified until docs arrive)
-- [ ] 26. Voice (MediaRecorder → transcribe → editable transcript)
-- [ ] 27. Chatbot (role-aware intents, templated answers, proposals only)
-- [ ] 28. Multilingual polish (UI en/hi/ta; assistant replies via translation)
+- [x] 24. AI provider abstraction (ports; sarvam | none; test fakes)
+- [x] 25. Sarvam adapter — verified against docs + live API
+- [~] 26. Voice — STT/TTS verified live through the API; browser mic capture not exercised with a physical mic here
+- [x] 27. Chatbot (role-aware intents, templated answers, proposals only)
+- [~] 28. Multilingual — assistant replies translated live (hi/ta verified); UI hi/ta partially translated
 
 ## Verification
-- [ ] ArchUnit: assistant cannot depend on workflow write side / repositories
-- [ ] Frontend typecheck + build
-- [ ] Local end-to-end run (backend + bundled SPA on embedded Postgres) exercised in a browser
-- [ ] Public HTTPS deployment (needs Railway access)
+- [x] ArchUnit: assistant cannot depend on workflow write side / repositories / JDBC
+- [x] Frontend typecheck + build
+- [x] Local end-to-end run exercised in a browser (employee → manager → HR, assistant proposal)
+- [ ] Public HTTPS deployment (needs Railway or Render access)
+- [ ] Docker image build (no Docker locally; CI builds it)

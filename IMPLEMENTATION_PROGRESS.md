@@ -33,3 +33,22 @@ Authoritative design: [implementation.md](implementation.md). This log records w
   - `EscalationTest` (7): timeout → skip-level; original manager still approves; HR-stage escalation never auto-approves; HR-pool fallback with four-eyes; 4 concurrent job runs → exactly 1 escalation; restart recovery via fresh job instance; cancelled never escalates
   - `SecurityApiTest` (12): login ok/generic failure + audit, 401 missing/tampered/expired JWT, role routes, IDOR read/write → 404, mass assignment → 400, HTTP idempotent replay, ProblemDetail shape + correlation id, actuator lockdown, security headers, employee sees no teammate names, demo-login off by default
 - Remaining: frontend, AI module, deployment files, docs
+
+### 2026-09-28 16:30 — Frontend (blueprint items 20–22)
+- Files: `frontend/**` (Vite/React/TS/Tailwind; employee, manager, HR features; i18n en/hi/ta), `backend/src/test/.../LocalDevApplication.java`
+- Build: `tsc --noEmit` clean; `vite build` OK
+- Verified in browser against the bundled SPA + embedded PostgreSQL: employee apply (preview: Diwali excluded, conflict warning) → flagged → manager approve with acknowledgement → PENDING_HR → HR final approve → APPROVED; escalation page (Chitra auto-escalated to Dev); audit trail.
+- Commit: `feat: role-based React frontend …`
+
+### 2026-09-28 16:45 — AI module (items 24–27) + Sarvam
+- Sarvam key provided by the user → stored only in gitignored `.env`. API shapes verified against docs.sarvam.ai AND live calls (STT saaras:v3, translate mayura:v1, TTS bulbul:v3, chat sarvam-105b with `json_object`; `sarvam-30b` is deprecated).
+- Files: `assistant/**` (ports, Sarvam adapter + circuit breakers, LLM + rule extractors, deterministic date resolver, command builder, orchestrator, answers, controller), `telemetry/AssistantTelemetry`, read-only `BalanceService.snapshots/peek`, prompt `prompts/intent-system-prompt.txt`
+- Tests added: `ArchitectureTest` (5), `AssistantIntegrationTest` (13), `AssistantLlmPathTest` (8), `DateExpressionResolverTest` (21), `RuleBasedIntentExtractorTest` (8), `SarvamClientTest` (3, local mock server), `SarvamLiveSmokeTest` (3, live, key-gated)
+- Result: 184/184 passed. Fixed during testing: reason/“because of” regexes; a model-inferred end date now yields to the stated duration.
+- Live end-to-end through the app: Hindi apply → READY proposal with resolved dates; Tamil balance → translated answer; "next week" → clarification; `/transcribe` returned the exact sentence from real audio; `/speak` returned WAV; assistant proposal confirmed in the UI → request #1008.
+
+### 2026-09-28 17:00 — Deployment configuration (item 23)
+- Files: `Dockerfile`, `.dockerignore`, `railway.json`, `render.yaml`, `.github/workflows/ci.yml`, `deploy/vercel-deploy.sh`, `backend/.env.example`, `README.md`, `FINAL_AUDIT.md`
+- Verified: production fat jar (`prod,demo`) against a fresh PostgreSQL database → migrations, seeding, SPA deep links, security headers, locked actuator.
+- Vercel token provided and validated (account reachable). **Not deployed**: Vercel cannot host the Spring Boot backend/PostgreSQL; a Railway or Render credential is needed for the backend (frontend-only on Vercel would be non-functional).
+- Environment limitation: Docker not installed → image not built locally (CI job builds it).
