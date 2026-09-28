@@ -1,0 +1,116 @@
+{
+  "app": { "name": "CareX Leave", "tagline": "Leave, approved the right way." },
+  "nav": {
+    "myLeave": "My leave", "dashboard": "Dashboard", "apply": "Apply leave", "requests": "My requests",
+    "manager": "Team", "approvals": "Approvals", "teamCalendar": "Team calendar", "conflicts": "Conflicts",
+    "hr": "HR", "hrApprovals": "HR approvals", "escalations": "Escalations", "overview": "Overview", "audit": "Audit trail",
+    "notifications": "Notifications", "logout": "Sign out", "assistant": "Assistant"
+  },
+  "roles": { "EMPLOYEE": "Employee", "MANAGER": "Manager", "HR": "HR" },
+  "status": {
+    "PENDING_MANAGER": "Awaiting manager", "MANAGER_ESCALATED": "Escalated (manager)", "PENDING_HR": "Awaiting HR",
+    "HR_ESCALATED": "Escalated (HR)", "APPROVED": "Approved", "REJECTED": "Rejected", "CANCELLED": "Cancelled"
+  },
+  "stage": { "submitted": "Submitted", "manager": "Manager", "hr": "HR", "approved": "Approved", "rejected": "Rejected", "cancelled": "Cancelled" },
+  "actions": {
+    "MANAGER_APPROVE": "Approve", "MANAGER_REJECT": "Reject", "HR_APPROVE": "Final approve", "HR_REJECT": "Reject",
+    "CANCEL": "Cancel request", "SUBMIT": "Submitted", "APPROVE": "Approved", "REJECT": "Rejected", "ESCALATE": "Escalated"
+  },
+  "common": {
+    "loading": "Loading…", "retry": "Retry", "close": "Close", "confirm": "Confirm", "back": "Back", "view": "View",
+    "days": "{{count}} day", "days_other": "{{count}} days", "workingDays": "working days", "none": "Nothing here yet",
+    "all": "All", "search": "Search", "from": "From", "to": "To", "team": "Team", "employee": "Employee", "type": "Type",
+    "dates": "Dates", "status": "Status", "requested": "Requested", "reason": "Reason", "comment": "Comment",
+    "language": "Language", "system": "System", "seeAll": "See all", "refresh": "Refresh", "open": "Open", "yes": "Yes", "no": "No",
+    "offline": "Offline — retrying", "flagged": "Flagged", "escalated": "Escalated", "overdueBy": "overdue by {{time}}",
+    "dueIn": "due in {{time}}", "voice": "via voice", "chat": "via chat", "demoRibbon": "Demo environment"
+  },
+  "login": {
+    "title": "Sign in", "subtitle": "Leave management with manager → HR approval chains",
+    "email": "Work email", "password": "Password", "submit": "Sign in", "demoTitle": "Try it instantly",
+    "demoSubtitle": "One-click demo accounts (demo mode only)", "expired": "Your session expired — please sign in again.",
+    "featureChain": "Manager → HR approval chain", "featureFlags": "Team conflict flags", "featureEscalation": "Automatic escalation",
+    "featureVoice": "Voice & multilingual assistant"
+  },
+  "employee": {
+    "hello": "Hello, {{name}}", "balances": "Your balances", "available": "available", "used": "used", "pending": "pending",
+    "entitled": "entitled", "upcoming": "Upcoming leave", "recent": "Recent requests", "applyCta": "Apply for leave",
+    "noUpcoming": "No upcoming leave", "prorated": "Pro-rated"
+  },
+  "apply": {
+    "title": "Apply for leave", "subtitle": "Your manager approves first, then HR gives the final approval.",
+    "leaveType": "Leave type", "startDate": "Start date", "endDate": "End date", "reason": "Reason (optional)",
+    "reasonPlaceholder": "e.g. Family function", "submit": "Submit request", "submitting": "Submitting…",
+    "preview": "Summary", "workingDays": "{{count}} working day", "workingDays_other": "{{count}} working days",
+    "excluded": "Excluded", "balanceAfter": "Balance after", "availableNow": "Available now",
+    "conflictWarn": "High team absence on {{date}} ({{absent}} of {{size}} out). Your request will be flagged for your manager — it is not rejected.",
+    "submitted": "Request #{{id}} submitted — waiting for {{name}}", "fromAssistant": "Prefilled by the assistant — please review.",
+    "weekend": "Weekend", "holiday": "Holiday"
+  },
+  "requests": { "title": "My requests", "empty": "You haven't applied for leave yet.", "filterAll": "All", "filterPending": "Pending", "filterApproved": "Approved", "filterClosed": "Rejected/Cancelled" },
+  "detail": {
+    "title": "Request #{{id}}", "timeline": "Timeline", "conflict": "Team absence", "escalation": "Escalation",
+    "approver": "Manager approver", "escalatedTo": "Escalated to", "hrPool": "HR pool", "routedHr": "Routed to HR (no manager above you)",
+    "noConflict": "No team conflict on these dates.", "conflictFlagged": "Flagged: team absence above {{pct}}% threshold",
+    "peak": "Peak {{date}}: {{absent}} of {{size}} out", "ackBy": "Acknowledged by {{name}}",
+    "deadline": "Stage deadline", "channel": "Channel", "decidedBy": "Decided by", "noActions": "No actions available to you."
+  },
+  "decision": {
+    "approveTitle": "Approve request #{{id}}", "rejectTitle": "Reject request #{{id}}", "commentPlaceholder": "Add a note (required to reject)",
+    "ack": "I have reviewed the team absence and approve anyway", "ackRequired": "This request is flagged — acknowledge the team conflict to approve.",
+    "approved": "Approved", "rejected": "Rejected", "cancelTitle": "Cancel request #{{id}}?", "cancelBody": "Your reserved days will be returned to your balance.",
+    "cancelled": "Request cancelled", "keep": "Keep request", "managerNote": "After your approval the request goes to HR for the final decision.",
+    "hrNote": "This is the final approval. Pending days become used days."
+  },
+  "manager": {
+    "title": "Team dashboard", "pending": "Awaiting you", "escalated": "Escalated", "flagged": "Flagged conflicts", "outToday": "Out today",
+    "outWeek": "Out this week", "queue": "Approval queue", "emptyQueue": "You're all caught up.", "teamSize": "Team size",
+    "calendarTitle": "Team calendar", "calendarHint": "Solid = approved · striped = pending · red header = above absence threshold",
+    "conflictsTitle": "Conflict flags", "conflictsEmpty": "No flagged requests in your teams.", "decided": "Decided by you"
+  },
+  "hr": {
+    "title": "HR dashboard", "approvalsTitle": "HR approvals", "emptyQueue": "No requests awaiting HR.",
+    "escalationsTitle": "Escalations", "runNow": "Run escalation check now", "ran": "Escalation check done: {{count}} escalated",
+    "open": "Open", "resolved": "Resolved", "late": "late by {{time}}", "target": "Target", "overviewTitle": "Leave overview",
+    "byStatus": "Requests by status", "byType": "Requests by type", "byTeam": "Active leave days by team",
+    "avgApproval": "Avg. approval time", "hours": "{{count}} h", "headcount": "Headcount", "openEscalations": "Open escalations",
+    "flaggedActive": "Flagged (active)", "pendingHr": "Awaiting HR", "upcoming": "Approved absences — next 14 days",
+    "auditTitle": "Audit trail", "auditHint": "Append-only. Every state transition, denial and login is recorded.",
+    "action": "Action", "actor": "Actor", "entity": "Entity", "when": "When", "details": "Details",
+    "integrity": "Balance integrity", "integrityOk": "All balances reconcile with requests", "integrityBad": "{{count}} mismatches",
+    "reset": "Reset demo data", "resetDone": "Demo data reset"
+  },
+  "notifications": { "title": "Notifications", "empty": "No notifications", "markAll": "Mark all read" },
+  "assistant": {
+    "title": "Leave assistant", "placeholder": "Ask or tell me… e.g. \"casual leave next Monday for 3 days\"",
+    "send": "Send", "listening": "Listening… tap to stop", "transcribing": "Transcribing…", "thinking": "Understanding…",
+    "editTranscript": "Check the transcript, then send", "micDenied": "Microphone blocked — type instead.",
+    "sttFailed": "Couldn't transcribe — please type instead.", "degraded": "Voice & AI are limited right now — every feature still works from the menus.",
+    "confirmSubmit": "Confirm & submit", "openForm": "Open in full form", "confirmCancel": "Confirm cancellation",
+    "confirmApprove": "Confirm approval", "confirmReject": "Confirm rejection", "speak": "Read replies aloud",
+    "welcome": "Hi! I can check your balance, list your requests, help you apply or cancel leave{{extra}}. Nothing is submitted without your confirmation.",
+    "welcomeManager": ", and show approvals, team leave and conflicts",
+    "welcomeHr": ", and show HR approvals, escalations and the leave overview",
+    "understood": "Here's what I understood — edit anything, then confirm.", "suggestions": "Try",
+    "sugBalance": "What's my leave balance?", "sugApply": "Casual leave next Monday for 3 days", "sugPending": "Show pending approvals",
+    "sugEscalations": "Any escalations?", "sugRequests": "Show my requests", "notSubmitted": "Nothing has been submitted yet.",
+    "inferred": "Check this", "mic": "Record voice message", "micStop": "Stop recording", "translationOff": "translation unavailable"
+  },
+  "errors": {
+    "GENERIC": "Something went wrong. Please try again.", "NETWORK_ERROR": "Network error — check your connection.",
+    "INVALID_CREDENTIALS": "Invalid email or password.", "UNAUTHENTICATED": "Please sign in.", "FORBIDDEN": "You are not allowed to do this.",
+    "NOT_FOUND": "Not found.", "VALIDATION_FAILED": "Please check the highlighted fields.", "INSUFFICIENT_BALANCE": "Not enough leave balance for these dates.",
+    "OVERLAPPING_REQUEST": "You already have leave on some of these dates.", "SPANS_YEARS": "Leave must be within one calendar year — split it into two requests.",
+    "BACKDATED_NOT_ALLOWED": "This leave type can't start in the past.", "BEFORE_JOINING_DATE": "Leave can't start before your joining date.",
+    "TOO_FAR_IN_FUTURE": "Leave can't end more than a year from today.", "NO_WORKING_DAYS": "The selected dates contain no working days.",
+    "REQUEST_TOO_LONG": "A single request can cover at most 30 working days.", "INVALID_TRANSITION": "This request was updated by someone else — refreshing.",
+    "NOT_AN_APPROVER": "You are not an approver for this stage.", "FOUR_EYES_VIOLATION": "The same person cannot approve both stages.",
+    "NOT_OWNER": "Only the employee can cancel their own request.", "CONFLICT_ACK_REQUIRED": "Acknowledge the team conflict to approve.",
+    "COMMENT_REQUIRED": "Please add a reason to reject.", "LEAVE_ALREADY_STARTED": "Approved leave can only be cancelled before it starts.",
+    "CONCURRENT_MODIFICATION": "Someone else changed this at the same time — please retry.", "RATE_LIMITED": "Too many requests — slow down a little.",
+    "AI_UNAVAILABLE": "The assistant is temporarily unavailable — use the menus instead.", "SERVICE_UNAVAILABLE": "Service temporarily unavailable.",
+    "INVALID_LEAVE_TYPE": "Choose a leave type.", "INVALID_DATE_RANGE": "End date must be on or after the start date.",
+    "INTERNAL_ERROR": "Unexpected error.", "NO_APPROVER": "No approver is configured for you — contact HR."
+  },
+  "leaveType": { "ANNUAL": "Annual", "CASUAL": "Casual", "SICK": "Sick" }
+}

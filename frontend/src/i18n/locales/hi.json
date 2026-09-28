@@ -1,0 +1,79 @@
+{
+  "app": { "name": "CareX Leave", "tagline": "छुट्टी, सही तरीके से स्वीकृत।" },
+  "nav": {
+    "myLeave": "मेरी छुट्टी", "dashboard": "डैशबोर्ड", "apply": "छुट्टी के लिए आवेदन", "requests": "मेरे अनुरोध",
+    "manager": "टीम", "approvals": "स्वीकृतियाँ", "teamCalendar": "टीम कैलेंडर", "conflicts": "टकराव",
+    "hr": "एचआर", "hrApprovals": "एचआर स्वीकृतियाँ", "escalations": "एस्केलेशन", "overview": "अवलोकन", "audit": "ऑडिट ट्रेल",
+    "notifications": "सूचनाएँ", "logout": "साइन आउट", "assistant": "सहायक"
+  },
+  "roles": { "EMPLOYEE": "कर्मचारी", "MANAGER": "प्रबंधक", "HR": "एचआर" },
+  "status": {
+    "PENDING_MANAGER": "प्रबंधक की प्रतीक्षा", "MANAGER_ESCALATED": "एस्केलेटेड (प्रबंधक)", "PENDING_HR": "एचआर की प्रतीक्षा",
+    "HR_ESCALATED": "एस्केलेटेड (एचआर)", "APPROVED": "स्वीकृत", "REJECTED": "अस्वीकृत", "CANCELLED": "रद्द"
+  },
+  "stage": { "submitted": "जमा किया", "manager": "प्रबंधक", "hr": "एचआर", "approved": "स्वीकृत", "rejected": "अस्वीकृत", "cancelled": "रद्द" },
+  "actions": {
+    "MANAGER_APPROVE": "स्वीकृत करें", "MANAGER_REJECT": "अस्वीकार करें", "HR_APPROVE": "अंतिम स्वीकृति", "HR_REJECT": "अस्वीकार करें",
+    "CANCEL": "अनुरोध रद्द करें", "SUBMIT": "जमा किया", "APPROVE": "स्वीकृत", "REJECT": "अस्वीकृत", "ESCALATE": "एस्केलेट किया"
+  },
+  "common": {
+    "loading": "लोड हो रहा है…", "retry": "फिर से प्रयास करें", "close": "बंद करें", "confirm": "पुष्टि करें", "back": "वापस", "view": "देखें",
+    "days": "{{count}} दिन", "days_other": "{{count}} दिन", "workingDays": "कार्य दिवस", "none": "अभी कुछ नहीं",
+    "team": "टीम", "employee": "कर्मचारी", "type": "प्रकार", "dates": "तिथियाँ", "status": "स्थिति", "reason": "कारण", "comment": "टिप्पणी",
+    "language": "भाषा", "refresh": "रीफ़्रेश", "flagged": "चिह्नित", "escalated": "एस्केलेटेड", "overdueBy": "{{time}} देर",
+    "dueIn": "{{time}} में देय", "voice": "आवाज़ से", "chat": "चैट से", "demoRibbon": "डेमो वातावरण"
+  },
+  "login": {
+    "title": "साइन इन", "subtitle": "प्रबंधक → एचआर स्वीकृति श्रृंखला के साथ छुट्टी प्रबंधन",
+    "email": "कार्य ईमेल", "password": "पासवर्ड", "submit": "साइन इन", "demoTitle": "तुरंत आज़माएँ",
+    "demoSubtitle": "एक-क्लिक डेमो खाते", "expired": "आपका सत्र समाप्त हो गया — फिर से साइन इन करें।",
+    "featureChain": "प्रबंधक → एचआर स्वीकृति", "featureFlags": "टीम टकराव चेतावनी", "featureEscalation": "स्वचालित एस्केलेशन",
+    "featureVoice": "आवाज़ और बहुभाषी सहायक"
+  },
+  "employee": {
+    "hello": "नमस्ते, {{name}}", "balances": "आपका शेष", "available": "उपलब्ध", "used": "उपयोग किया", "pending": "लंबित",
+    "entitled": "हकदार", "upcoming": "आगामी छुट्टी", "recent": "हाल के अनुरोध", "applyCta": "छुट्टी के लिए आवेदन करें",
+    "noUpcoming": "कोई आगामी छुट्टी नहीं", "prorated": "आनुपातिक"
+  },
+  "apply": {
+    "title": "छुट्टी के लिए आवेदन", "subtitle": "पहले आपके प्रबंधक स्वीकृत करते हैं, फिर एचआर अंतिम स्वीकृति देता है।",
+    "leaveType": "छुट्टी का प्रकार", "startDate": "आरंभ तिथि", "endDate": "समाप्ति तिथि", "reason": "कारण (वैकल्पिक)",
+    "submit": "अनुरोध जमा करें", "submitting": "जमा हो रहा है…", "preview": "सारांश",
+    "workingDays": "{{count}} कार्य दिवस", "workingDays_other": "{{count}} कार्य दिवस", "balanceAfter": "बाद में शेष",
+    "availableNow": "अभी उपलब्ध", "conflictWarn": "{{date}} को टीम में अधिक अनुपस्थिति ({{size}} में से {{absent}})। आपका अनुरोध प्रबंधक के लिए चिह्नित होगा — अस्वीकार नहीं।",
+    "submitted": "अनुरोध #{{id}} जमा — {{name}} की प्रतीक्षा", "fromAssistant": "सहायक द्वारा भरा गया — कृपया जाँचें।",
+    "weekend": "सप्ताहांत", "holiday": "अवकाश"
+  },
+  "requests": { "title": "मेरे अनुरोध", "empty": "आपने अभी तक छुट्टी के लिए आवेदन नहीं किया है।", "filterAll": "सभी", "filterPending": "लंबित", "filterApproved": "स्वीकृत", "filterClosed": "अस्वीकृत/रद्द" },
+  "detail": {
+    "title": "अनुरोध #{{id}}", "timeline": "समयरेखा", "conflict": "टीम अनुपस्थिति", "escalation": "एस्केलेशन",
+    "approver": "प्रबंधक अनुमोदक", "escalatedTo": "को एस्केलेट किया", "noConflict": "इन तिथियों पर कोई टीम टकराव नहीं।",
+    "noActions": "आपके लिए कोई कार्रवाई उपलब्ध नहीं।"
+  },
+  "decision": {
+    "approveTitle": "अनुरोध #{{id}} स्वीकृत करें", "rejectTitle": "अनुरोध #{{id}} अस्वीकार करें",
+    "ack": "मैंने टीम अनुपस्थिति देख ली है और फिर भी स्वीकृत करता/करती हूँ", "approved": "स्वीकृत", "rejected": "अस्वीकृत",
+    "cancelTitle": "अनुरोध #{{id}} रद्द करें?", "cancelBody": "आपके आरक्षित दिन शेष में लौटा दिए जाएँगे।", "cancelled": "अनुरोध रद्द", "keep": "अनुरोध रखें"
+  },
+  "manager": {
+    "title": "टीम डैशबोर्ड", "pending": "आपकी प्रतीक्षा में", "escalated": "एस्केलेटेड", "flagged": "चिह्नित टकराव", "outToday": "आज अनुपस्थित",
+    "outWeek": "इस सप्ताह अनुपस्थित", "queue": "स्वीकृति कतार", "emptyQueue": "सब काम पूरा है।", "teamSize": "टीम आकार",
+    "calendarTitle": "टीम कैलेंडर", "conflictsTitle": "टकराव चेतावनियाँ", "conflictsEmpty": "कोई चिह्नित अनुरोध नहीं।", "decided": "आपके निर्णय"
+  },
+  "hr": {
+    "title": "एचआर डैशबोर्ड", "approvalsTitle": "एचआर स्वीकृतियाँ", "emptyQueue": "एचआर के लिए कोई अनुरोध नहीं।",
+    "escalationsTitle": "एस्केलेशन", "runNow": "अभी एस्केलेशन जाँच चलाएँ", "overviewTitle": "छुट्टी अवलोकन", "auditTitle": "ऑडिट ट्रेल"
+  },
+  "notifications": { "title": "सूचनाएँ", "empty": "कोई सूचना नहीं", "markAll": "सभी पढ़ा हुआ चिह्नित करें" },
+  "assistant": {
+    "title": "छुट्टी सहायक", "placeholder": "पूछें या बताएं… जैसे \"अगले सोमवार से 3 दिन की आकस्मिक छुट्टी\"",
+    "send": "भेजें", "listening": "सुन रहा हूँ… रोकने के लिए टैप करें", "transcribing": "लिख रहा हूँ…", "thinking": "समझ रहा हूँ…",
+    "editTranscript": "प्रतिलेख जाँचें, फिर भेजें", "confirmSubmit": "पुष्टि करें और जमा करें", "openForm": "पूरे फ़ॉर्म में खोलें",
+    "understood": "मैंने यह समझा — कुछ भी बदलें, फिर पुष्टि करें।", "notSubmitted": "अभी कुछ भी जमा नहीं हुआ है।", "inferred": "इसे जाँचें"
+  },
+  "errors": {
+    "GENERIC": "कुछ गलत हो गया। कृपया फिर से प्रयास करें।", "INSUFFICIENT_BALANCE": "इन तिथियों के लिए पर्याप्त छुट्टी शेष नहीं है।",
+    "OVERLAPPING_REQUEST": "इनमें से कुछ तिथियों पर आपकी पहले से छुट्टी है।", "INVALID_CREDENTIALS": "ईमेल या पासवर्ड गलत है।"
+  },
+  "leaveType": { "ANNUAL": "वार्षिक", "CASUAL": "आकस्मिक", "SICK": "बीमारी" }
+}

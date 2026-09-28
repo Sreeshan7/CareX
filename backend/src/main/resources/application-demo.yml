@@ -1,7 +1,10 @@
+# Demo profile: seeded org + requests, quick-login buttons, short escalation timeouts.
+# 30 min keeps freshly submitted demo requests "pending" long enough to walk through the approval chain;
+# the seeded Chitra request is created already overdue so escalation is visible right after startup.
 app:
   demo:
     enabled: ${APP_DEMO_ENABLED:true}
   escalation:
-    manager-timeout: ${ESCALATION_MANAGER_TIMEOUT:PT3M}
-    hr-timeout: ${ESCALATION_HR_TIMEOUT:PT3M}
+    manager-timeout: ${ESCALATION_MANAGER_TIMEOUT:PT30M}
+    hr-timeout: ${ESCALATION_HR_TIMEOUT:PT30M}
     poll-interval: ${ESCALATION_POLL_INTERVAL:PT20S}
