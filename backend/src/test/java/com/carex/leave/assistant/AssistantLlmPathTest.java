@@ -93,6 +93,18 @@ class AssistantLlmPathTest extends IntegrationTest {
     }
 
     @Test
+    void statedDurationWinsOverAnInferredEndDate() {
+        NEXT.set("""
+                {"intent":"APPLY_LEAVE","leaveType":"CASUAL","leaveTypeExplicit":true,
+                 "startDate":{"expression":"12 october","value":"2026-10-12"},"endDate":{"expression":null,"value":"2026-10-20"},
+                 "durationDays":2,"vaguePeriod":null,"reason":null,"requestId":null,"comment":null}""");
+        Reply r = assistant.handle(org.arjun, "casual leave from 12 Oct for 2 days", "en-IN", null);
+        assertThat(r.command().str("endDate")).isEqualTo("2026-10-13");
+        assertThat(r.command().slot("endDate").source()).isEqualTo("RESOLVED");
+        assertThat(r.proposedAction()).isNotNull();
+    }
+
+    @Test
     void typeClaimedExplicitButNotNamedIsInferred() {
         NEXT.set(json("APPLY_LEAVE", "CASUAL", true, "tomorrow", null, 1));
         Reply r = assistant.handle(org.arjun, "I need a day off tomorrow for a wedding", "en-IN", null);

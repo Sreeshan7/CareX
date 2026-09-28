@@ -18,3 +18,4 @@ backend/.env
 
 # Local tooling
 .tools/
+frontend/vercel.json

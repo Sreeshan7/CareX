@@ -57,6 +57,9 @@ public class CommandBuilder {
         }
         Slot startSlot = dateSlot(start, today, ambiguities, "startDate");
         Slot endSlot = dateSlot(end, today, ambiguities, "endDate");
+        if (endSlot != null && "INFERRED".equals(endSlot.source()) && raw.durationDays() != null) {
+            endSlot = null; // the stated duration determines the end deterministically; ignore the model's guess
+        }
         if (startSlot != null) {
             slots.put("startDate", startSlot);
             if (endSlot == null) {

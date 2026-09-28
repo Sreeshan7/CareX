@@ -15,6 +15,7 @@ import java.util.Base64;
  */
 public class LocalDevApplication {
     public static void main(String[] args) throws Exception {
+        loadDotEnv();
         int port = Integer.parseInt(System.getenv().getOrDefault("LOCAL_PG_PORT", "54329"));
         EmbeddedPostgres pg = EmbeddedPostgres.builder().setPort(port).start();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -32,5 +33,21 @@ public class LocalDevApplication {
             System.setProperty("spring.profiles.active", "demo");
         }
         SpringApplication.run(LeaveApplication.class, args);
+    }
+
+    /** Loads KEY=VALUE lines from the gitignored repo-root .env (e.g. SARVAM_API_KEY) as system properties. */
+    private static void loadDotEnv() throws java.io.IOException {
+        for (java.nio.file.Path p : new java.nio.file.Path[]{java.nio.file.Path.of("../.env"), java.nio.file.Path.of(".env")}) {
+            if (!java.nio.file.Files.exists(p)) continue;
+            for (String line : java.nio.file.Files.readAllLines(p)) {
+                String l = line.trim();
+                int eq = l.indexOf('=');
+                if (l.isEmpty() || l.startsWith("#") || eq < 1) continue;
+                String key = l.substring(0, eq).trim();
+                if (key.startsWith("VERCEL") || System.getenv(key) != null) continue; // deployment tokens are not app config
+                System.setProperty(key, l.substring(eq + 1).trim());
+            }
+            return;
+        }
     }
 }

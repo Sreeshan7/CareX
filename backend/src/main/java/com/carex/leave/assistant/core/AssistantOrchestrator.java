@@ -212,9 +212,9 @@ public class AssistantOrchestrator {
         payload.put("reason", s.get("reason") == null ? null : s.get("reason").value());
         StringBuilder msg = new StringBuilder("Here's what I understood: ").append(AssistantAnswers.typeName(type))
                 .append(" leave, ").append(AssistantAnswers.range(start, end)).append(" — ").append(pv.workingDays())
-                .append(" working day(s)");
-        if (pv.availableAfter() != null) msg.append(", balance after ").append(AssistantAnswers.days(pv.availableAfter()));
-        msg.append(".");
+                .append(" working days.");
+        if (pv.availableAfter() != null) msg.append(" After this you will have ").append(AssistantAnswers.days(pv.availableAfter()))
+                .append(" days of ").append(AssistantAnswers.typeName(type).toLowerCase()).append(" leave left.");
         if (pv.conflict() != null && pv.conflict().wouldFlag()) msg.append(" Heads-up: high team absence — it will be flagged for your manager, not rejected.");
         if (!pv.errors().isEmpty()) msg.append(" Problem: ").append(pv.errors().get(0).message()).append(". Please adjust before submitting.");
         else msg.append(" Review and confirm to submit — nothing has been submitted yet.");

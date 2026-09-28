@@ -1,0 +1,28 @@
+# Fallback host (implementation.md §22.1): same Dockerfile on Render + Render PostgreSQL.
+# Use a paid (non-sleeping) instance so the escalation scheduler keeps running.
+services:
+  - type: web
+    name: carex-leave
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    plan: starter
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod,demo
+      - key: SPRING_DATASOURCE_URL
+        sync: false          # jdbc:postgresql://<host>:<port>/<db> from the database's internal connection info
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase: { name: carex-db, property: user }
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase: { name: carex-db, property: password }
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DEMO_USER_PASSWORD
+        generateValue: true
+      - key: SARVAM_API_KEY
+        sync: false
+databases:
+  - name: carex-db
+    plan: basic-256mb
+    postgresMajorVersion: "16"
