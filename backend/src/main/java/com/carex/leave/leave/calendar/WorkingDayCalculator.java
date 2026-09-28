@@ -55,6 +55,10 @@ public class WorkingDayCalculator {
         return d;
     }
 
+    public List<Holiday> upcomingHolidays(LocalDate from, int limit) {
+        return holidays.findByHolidayDateBetweenOrderByHolidayDate(from, from.plusYears(1)).stream().limit(limit).toList();
+    }
+
     /** Pure computation (unit-testable without a database). */
     public static Breakdown compute(LocalDate start, LocalDate end, Map<LocalDate, String> hol) {
         List<LocalDate> working = new ArrayList<>();

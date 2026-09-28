@@ -79,8 +79,11 @@ app:
   rate-limit:
     enabled: true
   ai:
-    provider: ${AI_PROVIDER:none}
+    # auto = Sarvam when SARVAM_API_KEY is set, otherwise "none" (rule-based, English-only assistant)
+    provider: ${AI_PROVIDER:auto}
     translate-before-extract: ${APP_AI_TRANSLATE_BEFORE_EXTRACT:false}
+    # Values verified against docs.sarvam.ai AND live API calls on 2026-09-28 (see SarvamWireFormat).
+    # The API key is only ever read from the environment.
     sarvam:
       api-key: ${SARVAM_API_KEY:}
       base-url: ${SARVAM_BASE_URL:https://api.sarvam.ai}
@@ -89,8 +92,8 @@ app:
       translate-path: ${SARVAM_TRANSLATE_PATH:/translate}
       tts-path: ${SARVAM_TTS_PATH:/text-to-speech}
       chat-path: ${SARVAM_CHAT_PATH:/v1/chat/completions}
-      stt-model: ${SARVAM_STT_MODEL:}
-      llm-model: ${SARVAM_LLM_MODEL:}
-      tts-model: ${SARVAM_TTS_MODEL:}
-      translate-model: ${SARVAM_TRANSLATE_MODEL:}
-      tts-speaker: ${SARVAM_TTS_SPEAKER:}
+      stt-model: ${SARVAM_STT_MODEL:saaras:v3}
+      llm-model: ${SARVAM_LLM_MODEL:sarvam-105b}
+      tts-model: ${SARVAM_TTS_MODEL:bulbul:v3}
+      translate-model: ${SARVAM_TRANSLATE_MODEL:mayura:v1}
+      tts-speaker: ${SARVAM_TTS_SPEAKER:shubh}

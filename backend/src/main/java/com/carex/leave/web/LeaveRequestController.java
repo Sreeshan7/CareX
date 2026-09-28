@@ -6,7 +6,6 @@ import com.carex.leave.leave.query.LeavePreviewService;
 import com.carex.leave.leave.query.LeaveQueryService;
 import com.carex.leave.leave.query.Views.*;
 import com.carex.leave.leave.request.Stage;
-import com.carex.leave.leave.type.LeaveTypeRepository;
 import com.carex.leave.common.time.BusinessCalendar;
 import com.carex.leave.workflow.LeaveWorkflowService;
 import com.carex.leave.workflow.LeaveWorkflowService.Decision;
@@ -42,16 +41,14 @@ public class LeaveRequestController {
     private final LeaveQueryService queries;
     private final LeavePreviewService preview;
     private final BalanceService balances;
-    private final LeaveTypeRepository types;
     private final BusinessCalendar calendar;
 
     public LeaveRequestController(LeaveWorkflowService workflow, LeaveQueryService queries, LeavePreviewService preview,
-                                  BalanceService balances, LeaveTypeRepository types, BusinessCalendar calendar) {
+                                  BalanceService balances, BusinessCalendar calendar) {
         this.workflow = workflow;
         this.queries = queries;
         this.preview = preview;
         this.balances = balances;
-        this.types = types;
         this.calendar = calendar;
     }
 
@@ -69,11 +66,9 @@ public class LeaveRequestController {
     @GetMapping("/me/balances")
     public List<BalanceView> myBalances(@AuthenticationPrincipal CurrentUser me, @RequestParam(required = false) Integer year) {
         int y = year == null ? calendar.today().getYear() : year;
-        var names = types.findAll();
-        return balances.balancesFor(me.id(), y).stream().map(b -> new BalanceView(b.getLeaveTypeCode(),
-                names.stream().filter(t -> t.getCode().equals(b.getLeaveTypeCode())).map(t -> t.getDisplayName()).findFirst().orElse(b.getLeaveTypeCode()),
-                b.getYear(), b.getEntitledDays(), b.getAdjustmentDays(), b.getUsedDays(), b.getPendingDays(), b.available(),
-                b.getProrationBasis())).toList();
+        // read-only: missing rows are shown with their computed pro-rated entitlement (created on first submit)
+        return balances.snapshots(me.id(), y).stream().map(b -> new BalanceView(b.leaveTypeCode(), b.leaveTypeName(),
+                b.year(), b.entitled(), b.adjustment(), b.used(), b.pending(), b.available(), b.prorationBasis())).toList();
     }
 
     @GetMapping("/me/leave-requests")

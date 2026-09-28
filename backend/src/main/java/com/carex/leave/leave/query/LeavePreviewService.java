@@ -5,7 +5,6 @@ import com.carex.leave.common.error.ApiException;
 import com.carex.leave.conflict.ConflictResult;
 import com.carex.leave.conflict.ConflictService;
 import com.carex.leave.leave.balance.BalanceService;
-import com.carex.leave.leave.balance.LeaveBalance;
 import com.carex.leave.leave.query.Views.*;
 import com.carex.leave.leave.request.LeaveRequestRepository;
 import com.carex.leave.leave.request.LeaveRequestValidator;
@@ -46,7 +45,7 @@ public class LeavePreviewService {
         this.conflicts = conflicts;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PreviewResponse preview(CurrentUser me, String typeCode, LocalDate start, LocalDate end) {
         AppUser user = org.user(me.id());
         LeaveType type = typeCode == null ? null : types.findById(typeCode).orElse(null);
@@ -60,7 +59,7 @@ public class LeavePreviewService {
         BigDecimal before = null;
         BigDecimal after = null;
         if (type != null && start != null) {
-            Optional<LeaveBalance> b = balances.peek(me.id(), type.getCode(), start.getYear());
+            Optional<BalanceService.Snapshot> b = balances.peek(me.id(), type.getCode(), start.getYear());
             if (b.isPresent()) {
                 before = b.get().available();
                 after = before.subtract(BigDecimal.valueOf(days));

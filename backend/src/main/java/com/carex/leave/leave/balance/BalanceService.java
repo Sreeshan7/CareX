@@ -86,14 +86,35 @@ public class BalanceService {
         return balances.findByUserIdAndYearOrderByLeaveTypeCode(userId, year);
     }
 
-    /** Read-only lookup (no lock) for previews. */
-    @Transactional
-    public Optional<LeaveBalance> peek(Long userId, String typeCode, int year) {
+    /** Read-only balance view: existing row, or the computed (not persisted) entitlement if no row exists yet. */
+    public record Snapshot(String leaveTypeCode, String leaveTypeName, int year, BigDecimal entitled,
+                           BigDecimal adjustment, BigDecimal used, BigDecimal pending, BigDecimal available,
+                           String prorationBasis) {}
+
+    /** Strictly read-only (no lazy insert) — used by previews and the assistant. */
+    @Transactional(readOnly = true)
+    public Optional<Snapshot> peek(Long userId, String typeCode, int year) {
         AppUser user = users.findById(userId).orElseThrow();
         Optional<LeaveType> type = types.findById(typeCode);
-        if (type.isEmpty() || !ensureRow(user, type.get(), year)) {
-            return Optional.empty();
+        return type.flatMap(t -> snapshot(user, t, year));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Snapshot> snapshots(Long userId, int year) {
+        AppUser user = users.findById(userId).orElseThrow();
+        return types.findByActiveTrueOrderByCode().stream()
+                .map(t -> snapshot(user, t, year)).flatMap(Optional::stream).toList();
+    }
+
+    private Optional<Snapshot> snapshot(AppUser user, LeaveType type, int year) {
+        Optional<LeaveBalance> row = balances.findByUserIdAndLeaveTypeCodeAndYear(user.getId(), type.getCode(), year);
+        if (row.isPresent()) {
+            LeaveBalance b = row.get();
+            return Optional.of(new Snapshot(type.getCode(), type.getDisplayName(), year, b.getEntitledDays(),
+                    b.getAdjustmentDays(), b.getUsedDays(), b.getPendingDays(), b.available(), b.getProrationBasis()));
         }
-        return balances.findByUserIdAndLeaveTypeCodeAndYear(userId, typeCode, year);
+        return ProRatingCalculator.entitlement(type.getAnnualEntitlement(), type.isProrated(), user.getJoiningDate(), year)
+                .map(r -> new Snapshot(type.getCode(), type.getDisplayName(), year, r.entitled(), BigDecimal.ZERO,
+                        BigDecimal.ZERO, BigDecimal.ZERO, r.entitled(), r.basis()));
     }
 }
