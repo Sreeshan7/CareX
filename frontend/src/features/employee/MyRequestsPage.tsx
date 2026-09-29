@@ -22,25 +22,25 @@ export function MyRequestsPage() {
   return (
     <div>
       <PageHeader title={t('requests.title')} />
-      <div className="mb-4 flex flex-wrap gap-2" role="tablist">
+      <div className="mb-6 flex flex-wrap gap-2" role="tablist">
         {FILTERS.map((f) => (
           <button key={f.key} role="tab" aria-selected={filter.key === f.key}
             onClick={() => { setFilter(f); setPage(0) }}
-            className={cn('rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 ring-inset', filter.key === f.key ? 'bg-brand-700 text-white ring-brand-700' : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-50')}>
+            className={cn('rounded-lg px-4 py-2 text-[13px] font-semibold ring-1 ring-inset transition-all duration-200', filter.key === f.key ? 'bg-slate-900 text-white ring-slate-900 shadow-sm' : 'bg-white text-slate-600 ring-slate-200/80 hover:bg-slate-50 hover:text-slate-900')}>
             {t(f.label)}
           </button>
         ))}
       </div>
-      <Card>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
         {q.isLoading ? <div className="p-5"><Skeleton className="h-40" /></div>
           : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} />
           : q.data!.items.length === 0 ? <EmptyState title={t('requests.empty')} />
           : <RequestTable rows={q.data!.items} showEmployee={false} />}
       </Card>
       {totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-end gap-2 text-sm">
+        <div className="mt-6 flex items-center justify-end gap-3 text-[13px]">
           <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>‹</Button>
-          <span className="text-slate-600">{page + 1} / {totalPages}</span>
+          <span className="font-medium text-slate-500">{page + 1} / {totalPages}</span>
           <Button variant="outline" size="sm" disabled={page + 1 >= totalPages} onClick={() => setPage((p) => p + 1)}>›</Button>
         </div>
       )}

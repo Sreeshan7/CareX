@@ -30,25 +30,25 @@ export function RequestDetailPage() {
       <Link to={-1 as unknown as string} onClick={(e) => { e.preventDefault(); history.back() }} className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
         <ArrowLeft className="h-4 w-4" aria-hidden />{t('common.back')}
       </Link>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between animate-fadeIn">
         <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">{t('detail.title', { id: r.id })}</h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-[28px] font-bold tracking-tight text-slate-900">{t('detail.title', { id: r.id })}</h1>
             <StatusBadge status={r.status} />
             {r.conflict?.flagged && <FlagBadge />}
             {!r.status.endsWith('ESCALATED') && <DeadlineBadge deadline={r.stageDeadlineAt} />}
-            {r.channel === 'VOICE' && <span className="inline-flex items-center gap-1 text-xs text-brand-700"><Mic className="h-3.5 w-3.5" aria-hidden />{t('common.voice')}</span>}
-            {r.channel === 'CHAT' && <span className="inline-flex items-center gap-1 text-xs text-brand-700"><MessageSquare className="h-3.5 w-3.5" aria-hidden />{t('common.chat')}</span>}
+            {r.channel === 'VOICE' && <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-600 ring-1 ring-slate-200/60"><Mic className="h-3.5 w-3.5 text-accent-500" aria-hidden />{t('common.voice')}</span>}
+            {r.channel === 'CHAT' && <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-600 ring-1 ring-slate-200/60"><MessageSquare className="h-3.5 w-3.5 text-accent-500" aria-hidden />{t('common.chat')}</span>}
           </div>
-          <p className="mt-1 text-slate-600">
-            <span className="font-medium text-slate-900">{r.employee.name}</span> · {r.employee.teamName} · {fmtRange(r.startDate, r.endDate)} · {t('common.days', { count: Number(formatDays(r.workingDays)) })}
+          <p className="mt-2 text-[14px] text-slate-500">
+            <span className="font-semibold text-slate-900">{r.employee.name}</span> · {r.employee.teamName} · {fmtRange(r.startDate, r.endDate)} · <span className="font-medium text-slate-700">{t('common.days', { count: Number(formatDays(r.workingDays)) })}</span>
           </p>
         </div>
         <RequestActions allowed={r.allowedActions}
           target={{ id: r.id, employeeName: r.employee.name, flagged: !!r.conflict?.flagged, range: fmtRange(r.startDate, r.endDate) }} />
       </div>
 
-      <Card className="p-5 sm:p-6"><StageStepper request={r} /></Card>
+      <Card className="p-6 border-0 ring-1 ring-slate-200/60 shadow-sm"><StageStepper request={r} /></Card>
 
       {openEscalation && (
         <Alert tone="error" icon={<Clock className="h-4 w-4" />}>
@@ -60,30 +60,30 @@ export function RequestDetailPage() {
         </Alert>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="grid gap-8 lg:grid-cols-3">
+        <Card className="lg:col-span-2 overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm h-fit">
           <CardHeader title={t('detail.conflict')} />
-          <div className="p-5">{r.conflict ? <ConflictPanel conflict={r.conflict} /> : null}</div>
+          <div className="p-6">{r.conflict ? <ConflictPanel conflict={r.conflict} /> : null}</div>
         </Card>
-        <Card>
+        <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm h-fit">
           <CardHeader title={t('common.dates')} />
-          <dl className="space-y-3 p-5 text-sm">
-            <div><dt className="text-slate-500">{t('common.type')}</dt><dd><LeaveTypeDot code={r.leaveTypeCode} /></dd></div>
-            <div><dt className="text-slate-500">{t('common.reason')}</dt><dd className="text-slate-900">{r.reason ?? '—'}</dd></div>
+          <dl className="space-y-4 p-6 text-[13px]">
+            <div><dt className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('common.type')}</dt><dd><LeaveTypeDot code={r.leaveTypeCode} /></dd></div>
+            <div><dt className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('common.reason')}</dt><dd className="font-medium text-slate-900">{r.reason ?? '—'}</dd></div>
             <div>
-              <dt className="text-slate-500">{t('detail.approver')}</dt>
-              <dd className="text-slate-900">{r.managerApprover?.name}{r.managerRoutedToHr && <span className="block text-xs text-slate-500">{t('detail.routedHr')}</span>}</dd>
+              <dt className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('detail.approver')}</dt>
+              <dd className="font-medium text-slate-900">{r.managerApprover?.name}{r.managerRoutedToHr && <span className="mt-1 block text-[11px] text-slate-500">{t('detail.routedHr')}</span>}</dd>
             </div>
-            {r.escalationApprover && <div><dt className="text-slate-500">{t('detail.escalatedTo')}</dt><dd>{r.escalationApprover.name}</dd></div>}
-            {r.escalatedToHrPool && <div><dt className="text-slate-500">{t('detail.escalatedTo')}</dt><dd>{t('detail.hrPool')}</dd></div>}
-            {r.stageDeadlineAt && <div><dt className="text-slate-500">{t('detail.deadline')}</dt><dd>{fmtDateTime(r.stageDeadlineAt)}</dd></div>}
+            {r.escalationApprover && <div><dt className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('detail.escalatedTo')}</dt><dd className="font-medium text-slate-900">{r.escalationApprover.name}</dd></div>}
+            {r.escalatedToHrPool && <div><dt className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('detail.escalatedTo')}</dt><dd className="font-medium text-slate-900">{t('detail.hrPool')}</dd></div>}
+            {r.stageDeadlineAt && <div><dt className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('detail.deadline')}</dt><dd className="font-medium text-slate-900">{fmtDateTime(r.stageDeadlineAt)}</dd></div>}
           </dl>
         </Card>
       </div>
 
-      <Card>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
         <CardHeader title={t('detail.timeline')} />
-        <div className="p-6"><Timeline entries={r.timeline} /></div>
+        <div className="p-8"><Timeline entries={r.timeline} /></div>
       </Card>
     </div>
   )

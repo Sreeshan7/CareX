@@ -13,26 +13,26 @@ export function PreviewPanel({ preview, loading, compact }: { preview?: PreviewR
       : <p className="text-sm text-slate-500">{t('apply.subtitle')}</p>
   }
   return (
-    <div className="space-y-3" aria-live="polite">
-      <div className="flex items-center gap-3">
-        <span className="rounded-xl bg-brand-50 p-2.5 text-brand-700"><CalendarCheck2 className="h-5 w-5" aria-hidden /></span>
+    <div className="space-y-4" aria-live="polite">
+      <div className="flex items-center gap-4">
+        <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-white shadow-sm ring-1 ring-slate-800"><CalendarCheck2 className="h-5 w-5" aria-hidden /></span>
         <div>
-          <p className="text-lg font-semibold text-slate-900">{t('apply.workingDays', { count: preview.workingDays })}</p>
+          <p className="text-[20px] font-bold tracking-tight text-slate-900">{t('apply.workingDays', { count: preview.workingDays })}</p>
           {preview.availableBefore !== null && (
-            <p className="text-sm text-slate-600">
-              {t('apply.availableNow')}: <b>{formatDays(preview.availableBefore)}</b> → {t('apply.balanceAfter')}:{' '}
+            <p className="mt-0.5 text-[13px] font-medium text-slate-500">
+              {t('apply.availableNow')}: <b className="text-slate-900">{formatDays(preview.availableBefore)}</b> → {t('apply.balanceAfter')}:{' '}
               <b className={preview.availableAfter !== null && preview.availableAfter < 0 ? 'text-rose-600' : 'text-slate-900'}>{formatDays(preview.availableAfter)}</b>
             </p>
           )}
         </div>
       </div>
       {!compact && preview.excludedDates.length > 0 && (
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{t('apply.excluded')}</p>
-          <ul className="mt-1 flex flex-wrap gap-1.5">
+        <div className="pt-2">
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-slate-400">{t('apply.excluded')}</p>
+          <ul className="flex flex-wrap gap-2">
             {preview.excludedDates.map((d) => (
-              <li key={d.date} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
-                {fmtDate(d.date)} · {d.reason === 'HOLIDAY' ? d.holidayName ?? t('apply.holiday') : t('apply.weekend')}
+              <li key={d.date} className="rounded-lg bg-white px-2.5 py-1 text-[12px] font-semibold text-slate-600 ring-1 ring-slate-200/80 shadow-sm">
+                {fmtDate(d.date)} <span className="font-normal text-slate-400">· {d.reason === 'HOLIDAY' ? d.holidayName ?? t('apply.holiday') : t('apply.weekend')}</span>
               </li>
             ))}
           </ul>

@@ -4,7 +4,7 @@ import type { BalanceView } from '../../api/types'
 import { Card } from '../ui/primitives'
 import { formatDays } from '../../lib/utils'
 
-const RING: Record<string, string> = { ANNUAL: '#0d9488', CASUAL: '#8b5cf6', SICK: '#f97316' }
+const RING: Record<string, string> = { ANNUAL: '#3b82f6', CASUAL: '#8b5cf6', SICK: '#f43f5e' }
 
 /** Ring chart: used (solid) / pending (light) / available (track). Pro-ration basis shown as a tooltip + text. */
 export function BalanceCard({ b }: { b: BalanceView }) {
@@ -17,28 +17,34 @@ export function BalanceCard({ b }: { b: BalanceView }) {
   const color = RING[b.leaveTypeCode] ?? '#64748b'
   const prorated = !b.prorationBasis.startsWith('Joined before') && !b.prorationBasis.startsWith('Not pro-rated')
   return (
-    <Card className="p-5">
-      <div className="flex items-center gap-4">
-        <svg viewBox="0 0 80 80" className="h-20 w-20 shrink-0 -rotate-90" role="img" aria-label={`${b.leaveTypeName}: ${formatDays(b.available)} ${t('employee.available')}`}>
-          <circle cx="40" cy="40" r={r} fill="none" stroke="#e2e8f0" strokeWidth="9" />
-          <circle cx="40" cy="40" r={r} fill="none" stroke={color} strokeOpacity="0.35" strokeWidth="9"
-            strokeDasharray={`${(used + pending) * c} ${c}`} strokeLinecap="round" />
-          <circle cx="40" cy="40" r={r} fill="none" stroke={color} strokeWidth="9" strokeDasharray={`${used * c} ${c}`} strokeLinecap="round" />
-        </svg>
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-slate-500">{t(`leaveType.${b.leaveTypeCode}`, b.leaveTypeName)}</p>
-          <p className="text-3xl font-semibold tracking-tight text-slate-900">
-            {formatDays(b.available)}<span className="ml-1 text-sm font-normal text-slate-500">{t('employee.available')}</span>
-          </p>
-          <p className="mt-0.5 text-xs text-slate-500">
-            {formatDays(b.used)} {t('employee.used')} · {formatDays(b.pending)} {t('employee.pending')} · {formatDays(b.entitled)} {t('employee.entitled')}
+    <Card className="p-6 transition-all duration-300 hover:shadow-md hover:ring-slate-300/60">
+      <div className="flex items-center gap-5">
+        <div className="relative flex h-[88px] w-[88px] shrink-0 items-center justify-center">
+          <svg viewBox="0 0 80 80" className="absolute inset-0 h-full w-full -rotate-90 transform drop-shadow-sm transition-transform duration-500 ease-out hover:scale-105" role="img" aria-label={`${b.leaveTypeName}: ${formatDays(b.available)} ${t('employee.available')}`}>
+            <circle cx="40" cy="40" r={r} fill="none" stroke="#f1f5f9" strokeWidth="7" />
+            <circle cx="40" cy="40" r={r} fill="none" stroke={color} strokeOpacity="0.2" strokeWidth="7"
+              strokeDasharray={`${(used + pending) * c} ${c}`} strokeLinecap="round" className="transition-all duration-1000 ease-in-out" />
+            <circle cx="40" cy="40" r={r} fill="none" stroke={color} strokeWidth="7" strokeDasharray={`${used * c} ${c}`} strokeLinecap="round" className="transition-all duration-1000 ease-in-out" />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <span className="text-xl font-bold tracking-tight text-slate-900">{formatDays(b.available)}</span>
+          </div>
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-[14px] font-semibold tracking-tight text-slate-900">{t(`leaveType.${b.leaveTypeCode}`, b.leaveTypeName)}</p>
+          <div className="mt-2.5 flex items-center gap-3 text-[12px] font-medium text-slate-500">
+            <div className="flex items-center gap-1.5"><div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }}></div> {formatDays(b.used)} {t('employee.used')}</div>
+            <div className="flex items-center gap-1.5"><div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color, opacity: 0.3 }}></div> {formatDays(b.pending)} {t('employee.pending')}</div>
+          </div>
+          <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+            {formatDays(b.entitled)} {t('employee.entitled')} total
           </p>
         </div>
       </div>
       {prorated && (
-        <p className="mt-3 flex items-start gap-1.5 rounded-lg bg-slate-50 px-2.5 py-2 text-xs text-slate-600" title={b.prorationBasis}>
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-600" aria-hidden />
-          <span><span className="font-medium">{t('employee.prorated')}:</span> {b.prorationBasis}</span>
+        <p className="mt-5 flex items-start gap-2.5 rounded-xl bg-slate-50 px-3.5 py-3 text-[12px] font-medium text-slate-600 ring-1 ring-inset ring-slate-200/50" title={b.prorationBasis}>
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-500" aria-hidden />
+          <span className="leading-relaxed"><span className="font-bold text-slate-900">{t('employee.prorated')}:</span> {b.prorationBasis}</span>
         </p>
       )}
     </Card>

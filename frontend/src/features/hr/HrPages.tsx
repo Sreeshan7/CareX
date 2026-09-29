@@ -35,13 +35,13 @@ export function HrDashboard() {
           <Button variant="outline" onClick={() => run.mutate()} loading={run.isPending}><PlayCircle className="h-4 w-4" aria-hidden />{t('hr.runNow')}</Button>
           {demo.data?.enabled && <Button variant="ghost" onClick={() => reset.mutate()} loading={reset.isPending}><RotateCcw className="h-4 w-4" aria-hidden />{t('hr.reset')}</Button>}
         </>} />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        {!o ? [0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-28" />) : <>
-          <StatCard label={t('hr.pendingHr')} value={o.pendingHr} tone="sky" icon={<ShieldCheck className="h-4 w-4" />} />
-          <StatCard label={t('hr.openEscalations')} value={o.openEscalations} tone="red" icon={<AlertOctagon className="h-4 w-4" />} />
-          <StatCard label={t('hr.flaggedActive')} value={o.flaggedActive} tone="amber" icon={<TriangleAlert className="h-4 w-4" />} />
-          <StatCard label={t('hr.avgApproval')} value={t('hr.hours', { count: o.avgApprovalHours })} tone="brand" icon={<Clock className="h-4 w-4" />} />
-          <StatCard label={t('hr.headcount')} value={o.headcount} tone="slate" icon={<Users className="h-4 w-4" />} hint={`${o.totalRequests} requests in ${o.year}`} />
+      <div className="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-5">
+        {!o ? [0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-28 rounded-2xl" />) : <>
+          <StatCard label={t('hr.pendingHr')} value={o.pendingHr} tone="sky" icon={<ShieldCheck className="h-5 w-5" />} />
+          <StatCard label={t('hr.openEscalations')} value={o.openEscalations} tone="red" icon={<AlertOctagon className="h-5 w-5" />} />
+          <StatCard label={t('hr.flaggedActive')} value={o.flaggedActive} tone="amber" icon={<TriangleAlert className="h-5 w-5" />} />
+          <StatCard label={t('hr.avgApproval')} value={t('hr.hours', { count: o.avgApprovalHours })} tone="brand" icon={<Clock className="h-5 w-5" />} />
+          <StatCard label={t('hr.headcount')} value={o.headcount} tone="slate" icon={<Users className="h-5 w-5" />} hint={`${o.totalRequests} requests in ${o.year}`} />
         </>}
       </div>
       {integrity.data && (
@@ -49,15 +49,15 @@ export function HrDashboard() {
           <span className="font-medium">{t('hr.integrity')}:</span> {integrity.data.ok ? t('hr.integrityOk') : t('hr.integrityBad', { count: integrity.data.mismatches.length })}
         </Alert>
       )}
-      <Card className="mt-6">
-        <CardHeader title={t('hr.approvalsTitle')} action={<Link to="/hr/approvals" className="text-sm font-medium text-brand-700 hover:underline">{t('common.seeAll')}</Link>} />
-        {queue.isLoading ? <div className="p-5"><Skeleton className="h-32" /></div>
+      <Card className="mt-10 overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+        <CardHeader title={t('hr.approvalsTitle')} action={<Link to="/hr/approvals" className="text-[13px] font-semibold text-accent-600 hover:text-accent-700 hover:underline">{t('common.seeAll')}</Link>} />
+        {queue.isLoading ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
           : queue.isError ? <ErrorState error={queue.error} onRetry={() => queue.refetch()} />
           : queue.data!.length === 0 ? <EmptyState title={t('hr.emptyQueue')} />
           : <RequestTable rows={queue.data!.slice(0, 6)} showActions showDeadline />}
       </Card>
       {o && o.upcomingAbsences.length > 0 && (
-        <Card className="mt-6">
+        <Card className="mt-10 overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
           <CardHeader title={t('hr.upcoming')} />
           <RequestTable rows={o.upcomingAbsences} />
         </Card>
@@ -82,8 +82,8 @@ export function HrApprovalsPage() {
   return (
     <div>
       <PageHeader title={t('hr.approvalsTitle')} />
-      <Card>
-        {q.isLoading ? <div className="p-5"><Skeleton className="h-40" /></div>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm mt-6">
+        {q.isLoading ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
           : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} />
           : q.data!.length === 0 ? <EmptyState title={t('hr.emptyQueue')} />
           : <RequestTable rows={q.data!} showActions showDeadline />}
@@ -101,16 +101,16 @@ export function EscalationsPage() {
     <div>
       <PageHeader title={t('hr.escalationsTitle')}
         action={<Button variant="outline" onClick={() => run.mutate()} loading={run.isPending}><PlayCircle className="h-4 w-4" aria-hidden />{t('hr.runNow')}</Button>} />
-      <div className="mb-4 flex gap-2" role="tablist">
+      <div className="mb-6 flex gap-2" role="tablist">
         {[true, false].map((o) => (
           <button key={String(o)} role="tab" aria-selected={open === o} onClick={() => setOpen(o)}
-            className={cn('rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 ring-inset', open === o ? 'bg-brand-700 text-white ring-brand-700' : 'bg-white text-slate-600 ring-slate-200')}>
+            className={cn('rounded-lg px-4 py-2 text-[13px] font-semibold ring-1 ring-inset transition-all duration-200', open === o ? 'bg-slate-900 text-white ring-slate-900 shadow-sm' : 'bg-white text-slate-600 ring-slate-200/80 hover:bg-slate-50 hover:text-slate-900')}>
             {o ? t('hr.open') : t('common.all')}
           </button>
         ))}
       </div>
-      <Card>
-        {q.isLoading ? <div className="p-5"><Skeleton className="h-40" /></div>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+        {q.isLoading ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
           : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} />
           : q.data!.length === 0 ? <EmptyState title={t('common.none')} />
           : <EscalationList rows={q.data!} />}
@@ -122,22 +122,22 @@ export function EscalationsPage() {
 function EscalationList({ rows }: { rows: EscalationView[] }) {
   const { t } = useTranslation()
   return (
-    <ul className="divide-y divide-slate-100">
+    <ul className="divide-y divide-slate-100/80">
       {rows.map((e) => (
-        <li key={e.id} className={cn('flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between', !e.resolvedAt && 'shadow-[inset_3px_0_0_#ef4444]')}>
+        <li key={e.id} className={cn('group flex flex-col gap-3 px-6 py-5 transition-colors hover:bg-slate-50/70 sm:flex-row sm:items-center sm:justify-between', !e.resolvedAt && 'shadow-[inset_3px_0_0_#ef4444]')}>
           <div>
-            <p className="text-sm font-medium text-slate-900">
-              <Link to={`/requests/${e.requestId}`} className="hover:underline">#{e.requestId}</Link> · {e.employee.name}
-              <span className="font-normal text-slate-500"> · {e.employee.teamName} · {fmtRange(e.startDate, e.endDate)}</span>
+            <p className="text-[14px] font-semibold text-slate-900">
+              <Link to={`/requests/${e.requestId}`} className="hover:text-accent-600 hover:underline transition-colors">#{e.requestId}</Link> · {e.employee.name}
+              <span className="font-medium text-slate-500"> · {e.employee.teamName} · {fmtRange(e.startDate, e.endDate)}</span>
             </p>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-1 text-[12px] font-medium text-slate-500">
               {e.stage === 'MANAGER' ? t('stage.manager') : t('stage.hr')} · {t('hr.target')}: {e.target?.name ?? '—'} ({e.targetRole}) · {fmtDateTime(e.escalatedAt)}
-              {e.lateBySeconds > 60 && <> · <span className="text-red-600">{t('hr.late', { time: humanMinutes(Math.round(e.lateBySeconds / 60)) })}</span></>}
+              {e.lateBySeconds > 60 && <> · <span className="font-bold text-rose-600">{t('hr.late', { time: humanMinutes(Math.round(e.lateBySeconds / 60)) })}</span></>}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <StatusBadge status={e.requestStatus} />
-            <Badge className={e.resolvedAt ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' : 'bg-red-50 text-red-700 ring-red-200'}>
+            <Badge className={cn('px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider', e.resolvedAt ? 'bg-emerald-50 text-emerald-700 ring-emerald-200/50' : 'bg-rose-50 text-rose-700 ring-rose-200/50')}>
               {e.resolvedAt ? `${t('hr.resolved')} · ${e.resolution}` : t('hr.open')}
             </Badge>
           </div>
@@ -219,8 +219,8 @@ export function OverviewPage() {
 
 function ChartCard({ title, children }: { title: string; children: React.ReactElement }) {
   return (
-    <Card className="p-5">
-      <h3 className="mb-4 text-base font-semibold">{title}</h3>
+    <Card className="p-6 transition-all duration-300 hover:shadow-md border-0 ring-1 ring-slate-200/60 shadow-sm">
+      <h3 className="mb-6 text-[15px] font-bold tracking-tight text-slate-900">{title}</h3>
       <div className="h-64"><ResponsiveContainer width="100%" height="100%">{children}</ResponsiveContainer></div>
     </Card>
   )
@@ -244,23 +244,23 @@ export function AuditPage() {
   return (
     <div>
       <PageHeader title={t('hr.auditTitle')} subtitle={t('hr.auditHint')} />
-      <Card className="mb-4 flex flex-wrap items-end gap-3 p-4">
+      <Card className="mb-6 flex flex-wrap items-end gap-4 p-5 border-0 ring-1 ring-slate-200/60 shadow-sm">
         <div className="w-64">
-          <label className="mb-1 block text-xs font-medium text-slate-500" htmlFor="audit-action">{t('hr.action')}</label>
+          <label className="mb-1.5 block text-[12px] font-bold uppercase tracking-wider text-slate-500" htmlFor="audit-action">{t('hr.action')}</label>
           <Select id="audit-action" value={action} onChange={(e) => { setAction(e.target.value); setPage(0) }}>
             {AUDIT_ACTIONS.map((a) => <option key={a} value={a}>{a || t('common.all')}</option>)}
           </Select>
         </div>
         <div className="w-40">
-          <label className="mb-1 block text-xs font-medium text-slate-500" htmlFor="audit-req">Request #</label>
+          <label className="mb-1.5 block text-[12px] font-bold uppercase tracking-wider text-slate-500" htmlFor="audit-req">Request #</label>
           <Input id="audit-req" inputMode="numeric" value={entityId} onChange={(e) => { setEntityId(e.target.value.replace(/\D/g, '')); setPage(0) }} />
         </div>
       </Card>
-      <Card>
-        {q.isLoading ? <div className="p-5"><Skeleton className="h-60" /></div>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+        {q.isLoading ? <div className="p-6"><Skeleton className="h-60 rounded-xl" /></div>
           : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} />
           : q.data!.items.length === 0 ? <EmptyState title={t('common.none')} /> : (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-slate-100/80">
               {q.data!.items.map((a) => (
                 <li key={a.id}>
                   <button className="flex w-full items-start gap-3 px-5 py-3 text-left hover:bg-slate-50" onClick={() => setExpanded(expanded === a.id ? null : a.id)} aria-expanded={expanded === a.id}>
@@ -289,9 +289,9 @@ export function AuditPage() {
           )}
       </Card>
       {totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-end gap-2 text-sm">
+        <div className="mt-6 flex items-center justify-end gap-3 text-[13px]">
           <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>‹</Button>
-          <span className="text-slate-600">{page + 1} / {totalPages}</span>
+          <span className="font-medium text-slate-500">{page + 1} / {totalPages}</span>
           <Button variant="outline" size="sm" disabled={page + 1 >= totalPages} onClick={() => setPage((p) => p + 1)}>›</Button>
         </div>
       )}

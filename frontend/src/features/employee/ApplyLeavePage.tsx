@@ -76,8 +76,8 @@ export function ApplyLeavePage() {
       {prefill.fromAssistant && (
         <Alert tone="info" className="mb-4" icon={<Sparkles className="h-4 w-4" />}>{t('apply.fromAssistant')}</Alert>
       )}
-      <div className="grid gap-6 lg:grid-cols-5">
-        <Card className="lg:col-span-3">
+      <div className="mt-8 grid gap-8 lg:grid-cols-5">
+        <Card className="lg:col-span-3 border-0 overflow-hidden">
           <form className="space-y-5 p-5" onSubmit={(e) => { e.preventDefault(); if (!blocked) submit.mutate() }} noValidate>
             <div>
               <Label htmlFor="type">{t('apply.leaveType')}</Label>
@@ -110,9 +110,9 @@ export function ApplyLeavePage() {
             </div>
           </form>
         </Card>
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 border-0 h-fit overflow-hidden">
           <CardHeader title={t('apply.preview')} />
-          <div className="p-5">
+          <div className="p-6 bg-slate-50/50">
             <PreviewPanel preview={canPreview ? preview.data : undefined} loading={canPreview && preview.isFetching} />
           </div>
         </Card>

@@ -2,20 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  
+  html, body, #root {
+    height: 100%;
+  }
+  
+  body {
+    @apply bg-[#FAFAFA] text-slate-900 antialiased selection:bg-accent-200 selection:text-accent-900;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent-500/50 ring-offset-2 ring-offset-[#FAFAFA];
+  }
 }
 
-html, body, #root {
-  height: 100%;
-}
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-glass;
+  }
+  
+  .glass-dark {
+    @apply bg-slate-900/80 backdrop-blur-md border border-slate-700/50 shadow-glass;
+  }
 
-body {
-  @apply bg-slate-50 text-slate-900 antialiased;
-}
-
-*:focus-visible {
-  @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 .hatched {

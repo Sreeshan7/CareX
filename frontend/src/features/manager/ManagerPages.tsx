@@ -19,25 +19,25 @@ export function ManagerDashboard() {
     <div>
       <PageHeader title={t('manager.title')} subtitle={d?.teams.map((x) => x.name).join(', ')}
         action={<Link to="/manager/approvals"><Button><ClipboardCheck className="h-4 w-4" aria-hidden />{t('nav.approvals')}</Button></Link>} />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        {!d ? [0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-28" />) : <>
-          <StatCard label={t('manager.pending')} value={d.pending} tone="amber" icon={<ClipboardCheck className="h-4 w-4" />} />
-          <StatCard label={t('manager.escalated')} value={d.escalated} tone="red" icon={<AlertOctagon className="h-4 w-4" />} />
-          <StatCard label={t('manager.flagged')} value={d.flagged} tone="amber" icon={<TriangleAlert className="h-4 w-4" />} />
-          <StatCard label={t('manager.outToday')} value={d.outToday} tone="sky" icon={<UserX className="h-4 w-4" />} />
-          <StatCard label={t('manager.teamSize')} value={d.teamSize} tone="brand" icon={<Users className="h-4 w-4" />} hint={`${t('manager.outWeek')}: ${d.outThisWeek}`} />
+      <div className="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-5">
+        {!d ? [0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-28 rounded-2xl" />) : <>
+          <StatCard label={t('manager.pending')} value={d.pending} tone="amber" icon={<ClipboardCheck className="h-5 w-5" />} />
+          <StatCard label={t('manager.escalated')} value={d.escalated} tone="red" icon={<AlertOctagon className="h-5 w-5" />} />
+          <StatCard label={t('manager.flagged')} value={d.flagged} tone="amber" icon={<TriangleAlert className="h-5 w-5" />} />
+          <StatCard label={t('manager.outToday')} value={d.outToday} tone="sky" icon={<UserX className="h-5 w-5" />} />
+          <StatCard label={t('manager.teamSize')} value={d.teamSize} tone="brand" icon={<Users className="h-5 w-5" />} hint={`${t('manager.outWeek')}: ${d.outThisWeek}`} />
         </>}
       </div>
-      <Card className="mt-6">
-        <CardHeader title={t('manager.queue')} action={<Link to="/manager/approvals" className="text-sm font-medium text-brand-700 hover:underline">{t('common.seeAll')}</Link>} />
-        {!d ? <div className="p-5"><Skeleton className="h-32" /></div>
+      <Card className="mt-10 overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+        <CardHeader title={t('manager.queue')} action={<Link to="/manager/approvals" className="text-[13px] font-semibold text-accent-600 hover:text-accent-700 hover:underline">{t('common.seeAll')}</Link>} />
+        {!d ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
           : d.queuePreview.length === 0 ? <EmptyState title={t('manager.emptyQueue')} />
           : <RequestTable rows={d.queuePreview} showActions showDeadline />}
       </Card>
-      <Card className="mt-6">
+      <Card className="mt-10 border-0 ring-1 ring-slate-200/60 shadow-sm">
         <CardHeader title={t('manager.calendarTitle')} subtitle={t('manager.calendarHint')}
-          action={<Link to="/manager/team" className="text-sm font-medium text-brand-700 hover:underline"><CalendarDays className="inline h-4 w-4" aria-hidden /> {t('common.open')}</Link>} />
-        <div className="p-5"><CalendarBlock days={14} /></div>
+          action={<Link to="/manager/team" className="text-[13px] font-semibold text-accent-600 hover:text-accent-700 hover:underline"><CalendarDays className="inline h-4 w-4 mr-1" aria-hidden />{t('common.open')}</Link>} />
+        <div className="p-6"><CalendarBlock days={14} /></div>
       </Card>
     </div>
   )
@@ -59,16 +59,16 @@ export function ManagerApprovalsPage() {
   return (
     <div>
       <PageHeader title={t('nav.approvals')} />
-      <div className="mb-4 flex gap-2" role="tablist">
+      <div className="mb-6 flex gap-2" role="tablist">
         {(['pending', 'decided'] as const).map((s) => (
           <button key={s} role="tab" aria-selected={scope === s} onClick={() => setScope(s)}
-            className={cn('rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 ring-inset', scope === s ? 'bg-brand-700 text-white ring-brand-700' : 'bg-white text-slate-600 ring-slate-200')}>
+            className={cn('rounded-lg px-4 py-2 text-[13px] font-semibold ring-1 ring-inset transition-all duration-200', scope === s ? 'bg-slate-900 text-white ring-slate-900 shadow-sm' : 'bg-white text-slate-600 ring-slate-200/80 hover:bg-slate-50 hover:text-slate-900')}>
             {s === 'pending' ? t('manager.pending') : t('manager.decided')}
           </button>
         ))}
       </div>
-      <Card>
-        {q.isLoading ? <div className="p-5"><Skeleton className="h-40" /></div>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+        {q.isLoading ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
           : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} />
           : q.data!.length === 0 ? <EmptyState title={t('manager.emptyQueue')} />
           : <RequestTable rows={q.data!} showActions={scope === 'pending'} showDeadline={scope === 'pending'} />}
@@ -91,8 +91,8 @@ export function ManagerTeamPage() {
           <Button variant="outline" size="sm" onClick={() => setOffset(0)}>{t('common.refresh')}</Button>
           <Button variant="outline" size="sm" onClick={() => setOffset((o) => o + 28)}>›</Button>
         </>} />
-      <Card className="p-5">
-        {q.isLoading ? <Skeleton className="h-64" /> : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} /> : <TeamCalendarGrid data={q.data!} />}
+      <Card className="p-6 border-0 ring-1 ring-slate-200/60 shadow-sm">
+        {q.isLoading ? <Skeleton className="h-64 rounded-xl" /> : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} /> : <TeamCalendarGrid data={q.data!} />}
       </Card>
     </div>
   )
@@ -104,8 +104,8 @@ export function ManagerConflictsPage() {
   return (
     <div>
       <PageHeader title={t('manager.conflictsTitle')} />
-      <Card>
-        {q.isLoading ? <div className="p-5"><Skeleton className="h-40" /></div>
+      <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+        {q.isLoading ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
           : q.isError ? <ErrorState error={q.error} onRetry={() => q.refetch()} />
           : q.data!.length === 0 ? <EmptyState title={t('manager.conflictsEmpty')} />
           : <RequestTable rows={q.data!} showActions />}

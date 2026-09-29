@@ -28,40 +28,48 @@ export function EmployeeDashboard() {
         subtitle={`${user?.teamName} · ${t(`roles.${user?.role}`)}`}
         action={<Link to="/me/apply"><Button size="lg"><CalendarPlus className="h-5 w-5" aria-hidden />{t('employee.applyCta')}</Button></Link>}
       />
-      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">{t('employee.balances')}</h2>
+      <h2 className="mb-4 text-[13px] font-bold uppercase tracking-widest text-slate-400">{t('employee.balances')}</h2>
       {balances.isError ? <Card><ErrorState error={balances.error} onRetry={() => balances.refetch()} /></Card> : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {balances.isLoading ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-36" />)
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {balances.isLoading ? [0, 1, 2].map((i) => <Skeleton key={i} className="h-36 rounded-2xl" />)
             : balances.data?.map((b) => <BalanceCard key={b.leaveTypeCode} b={b} />)}
         </div>
       )}
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
-          <CardHeader title={t('employee.upcoming')} />
-          {upcoming.length === 0 ? <EmptyState title={t('employee.noUpcoming')} icon={<Plane className="h-6 w-6" />} /> : (
-            <ul className="divide-y divide-slate-100">
-              {upcoming.map((r) => (
-                <li key={r.id}>
-                  <Link to={`/requests/${r.id}`} className="block px-5 py-3 hover:bg-slate-50">
-                    <p className="text-sm font-medium text-slate-900">{fmtRange(r.startDate, r.endDate)}</p>
-                    <div className="mt-1 flex items-center justify-between gap-2">
-                      <span className="text-xs text-slate-500">{t(`leaveType.${r.leaveTypeCode}`)} · {t('common.days', { count: Number(formatDays(r.workingDays)) })}</span>
-                      <StatusBadge status={r.status} />
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Card>
-        <Card className="lg:col-span-2">
-          <CardHeader title={t('employee.recent')} action={<Link to="/me/requests" className="text-sm font-medium text-brand-700 hover:underline">{t('common.seeAll')}</Link>} />
-          {requests.isLoading ? <div className="p-5"><Skeleton className="h-32" /></div>
-            : requests.isError ? <ErrorState error={requests.error} onRetry={() => requests.refetch()} />
-            : requests.data!.items.length === 0 ? <EmptyState title={t('requests.empty')} />
-            : <RequestTable rows={requests.data!.items} showEmployee={false} />}
-        </Card>
+      <div className="mt-10 grid gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-1 space-y-4">
+          <h2 className="text-[13px] font-bold uppercase tracking-widest text-slate-400">{t('employee.upcoming')}</h2>
+          <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+            {upcoming.length === 0 ? <EmptyState title={t('employee.noUpcoming')} icon={<Plane className="h-6 w-6" />} /> : (
+              <ul className="divide-y divide-slate-100/80">
+                {upcoming.map((r) => (
+                  <li key={r.id}>
+                    <Link to={`/requests/${r.id}`} className="group block px-6 py-4 transition-colors hover:bg-slate-50/80">
+                      <p className="text-[14px] font-semibold tracking-tight text-slate-900 group-hover:text-accent-600">{fmtRange(r.startDate, r.endDate)}</p>
+                      <div className="mt-2 flex items-center justify-between gap-3">
+                        <span className="text-[12px] font-medium text-slate-500">{t(`leaveType.${r.leaveTypeCode}`)} · {t('common.days', { count: Number(formatDays(r.workingDays)) })}</span>
+                        <StatusBadge status={r.status} />
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
+        
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-[13px] font-bold uppercase tracking-widest text-slate-400">{t('employee.recent')}</h2>
+            <Link to="/me/requests" className="text-[12px] font-semibold text-accent-600 hover:text-accent-700 hover:underline">{t('common.seeAll')}</Link>
+          </div>
+          <Card className="overflow-hidden border-0 ring-1 ring-slate-200/60 shadow-sm">
+            {requests.isLoading ? <div className="p-6"><Skeleton className="h-48 rounded-xl" /></div>
+              : requests.isError ? <ErrorState error={requests.error} onRetry={() => requests.refetch()} />
+              : requests.data!.items.length === 0 ? <EmptyState title={t('requests.empty')} />
+              : <RequestTable rows={requests.data!.items} showEmployee={false} />}
+          </Card>
+        </div>
       </div>
     </div>
   )
