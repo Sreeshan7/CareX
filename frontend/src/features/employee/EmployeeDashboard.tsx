@@ -7,7 +7,7 @@ import { useAuth } from '../../auth/AuthProvider'
 import { BalanceCard } from '../../components/leave/BalanceCard'
 import { RequestTable } from '../../components/leave/RequestTable'
 import { StatusBadge } from '../../components/leave/StatusBadge'
-import { Button, Card, CardHeader, EmptyState, ErrorState, PageHeader, Skeleton } from '../../components/ui/primitives'
+import { Button, Card, EmptyState, ErrorState, PageHeader, Skeleton } from '../../components/ui/primitives'
 import { fmtRange, isoToday } from '../../lib/dates'
 import { formatDays } from '../../lib/utils'
 
